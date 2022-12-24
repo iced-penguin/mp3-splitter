@@ -26,6 +26,7 @@ def split_sound(sound, args: Arguments) -> AudioSegment:
         if (i == 0 and args.ignore_first_silence) or i == num_chunks - 1:
             dst_sound += chunk
         else:
+            # TODO: ポーズ長を調節する機能を追加するか検討
             dst_sound += chunk + AudioSegment.silent(len(chunk))
     
     return dst_sound
