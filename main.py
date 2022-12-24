@@ -17,8 +17,9 @@ class Arguments:
         self.ignore_first_silence: bool = args.ignore_first
 
 
-def split_sound(sound, args: Arguments) -> AudioSegment:
-    chunks = split_on_silence(sound, min_silence_len=args.threshold, silence_thresh=-32, keep_silence=True)
+# HACK: 型アノテーションを付与する
+def insert_pause(src_sound, args: Arguments) -> AudioSegment:
+    chunks = split_on_silence(src_sound, min_silence_len=args.threshold, silence_thresh=-32, keep_silence=True)
     num_chunks = len(chunks)
 
     dst_sound = AudioSegment.empty()
@@ -34,6 +35,6 @@ def split_sound(sound, args: Arguments) -> AudioSegment:
 
 if __name__ == '__main__':
     args = Arguments()
-    sound = AudioSegment.from_mp3(args.src_file)
-    dst_sound = split_sound(sound, args)
+    src_sound = AudioSegment.from_mp3(args.src_file)
+    dst_sound = insert_pause(src_sound, args)
     dst_sound.export(args.dst_file)
