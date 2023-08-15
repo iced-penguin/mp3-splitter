@@ -3,7 +3,7 @@ from pydub import AudioSegment
 from pydub.silence import split_on_silence
 
 class Arguments:
-    def __init__(self) -> None:
+    def __init__(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("src", help="mp3 source file")
         parser.add_argument("dst", help="mp3 destination file")
@@ -11,14 +11,13 @@ class Arguments:
         parser.add_argument("--ignore-first", help="ignore first silence", action="store_true", dest="ignore_first")
         args = parser.parse_args()
 
-        self.src_file: str = args.src
-        self.dst_file: str = args.dst
-        self.threshold: int = args.threshold
-        self.ignore_first_silence: bool = args.ignore_first
+        self.src_file = args.src
+        self.dst_file = args.dst
+        self.threshold = args.threshold
+        self.ignore_first_silence = args.ignore_first
 
 
-# HACK: 型アノテーションを付与する
-def insert_pause(src_sound, args: Arguments) -> AudioSegment:
+def insert_pause(src_sound, args: Arguments):
     chunks = split_on_silence(src_sound, min_silence_len=args.threshold, silence_thresh=-32, keep_silence=True)
     num_chunks = len(chunks)
 
