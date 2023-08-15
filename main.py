@@ -34,6 +34,9 @@ def insert_pause(src_sound, args: Arguments):
 
 if __name__ == '__main__':
     args = Arguments()
+    print("{} -> {}".format(args.src_file, args.dst_file))
     src_sound = AudioSegment.from_mp3(args.src_file)
+    print("Converting...")
     dst_sound = insert_pause(src_sound, args)
     dst_sound.export(args.dst_file)
+    print("Done")
